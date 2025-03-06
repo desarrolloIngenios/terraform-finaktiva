@@ -57,7 +57,6 @@ Autentica AWS en la CLI:
 
 ```bash
 bash
-CopiarEditar
 aws configure
 
 ```
@@ -80,7 +79,6 @@ Vamos a definir los recursos en Terraform:
 
 ```bash
 bash
-CopiarEditar
 mkdir fargate-terraform && cd fargate-terraform
 touch main.tf variables.tf outputs.tf
 
@@ -415,6 +413,7 @@ Agunos errores que se presentaron durante la preparacion de la prueba.
 
 errores.
 
+```
 hint: Using 'master' as the name for the initial branch. This default branch name
 hint: is subject to change. To configure the initial branch name to use in all
 hint: of your new repositories, which will suppress this warning, call:
@@ -425,6 +424,9 @@ hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
 hint: 'development'. The just-created branch can be renamed via this command:
 hint:
 hint:   git branch -m <name>
+```
+
+![Uploading Captura de pantalla 2025-03-06 a la(s) 11.41.31 a.m..png…]()
 
 Este error se presento porque solo tenia una rama creada. para solucionarlo y la buena practica es no trabajar con la master sino tener una rama de main, y otras para los diferentes ambientes.
 
