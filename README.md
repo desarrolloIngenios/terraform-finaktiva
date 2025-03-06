@@ -1,6 +1,15 @@
 Arquitectura de la Solucion.
 
-![Infra Prueba drawio](https://github.com/user-attachments/assets/49f3ee97-225f-4f9a-8f35-e6d81c4a0ef7)
+Se define una arquitectura escalable y con alta disponibilidad, se toma la decicion d eutilizar Kubernetes ya que validando la compania y al tener 13.000 clientes y esperando tener un crecimiento exponencial a futuro se sugiere la utlizacaion de los kubernetes esto nos ayuda a la opracion de plataformas robusata, optimizar costos con el afinamiento de los pod, dependiedo del consumo se puede llegar a tener negociaciones y compromisos de recursos reservados.
+
+De igual manera se pued epensar en tener una infraestructura portable y tener l aposibilidad de realizar migraciones a otras nuebes sin mayor traumatismo.  
+
+La alta disponibilidad se define ya que al ser una entidad fonanciera y en colombia las regulacion de la superfinanciera indica que las entidiades deben tener una alta disponibilidad en otra region donde garantice la continuidad del negocio y la disponiblidad a sus usuarios. 
+
+Tener una solucion de alta dsiponibilidad puede llegar  a ser costoso por ello se debe entrar a replantear una solucion donde se identifique los recuros cor  de negocio y que podamos tenner una disponibilidad de bajo costos, con recurso apagados o utilizara terraform que nos permite tener una Iaac para depslegar en otra region o en otra nube de tener una disponibilidad y no tener dependnecia de la nube, todo esto se pued automatizar desde Github.
+
+![Arquitectura Prueba (1)](https://github.com/user-attachments/assets/18df7121-0aa3-46d0-89b0-f36549c17ec7)
+
 
 
 ## **Paso 1: Configurar el Entorno**
