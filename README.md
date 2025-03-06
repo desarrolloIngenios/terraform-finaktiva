@@ -1,3 +1,8 @@
+Arquitectura de la Solucion.
+
+![Infra Prueba drawio](https://github.com/user-attachments/assets/49f3ee97-225f-4f9a-8f35-e6d81c4a0ef7)
+
+
 ## **Paso 1: Configurar el Entorno**
 
 Antes de empezar, asegúrate de tener instalado:
