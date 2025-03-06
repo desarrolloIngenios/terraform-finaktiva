@@ -28,7 +28,7 @@ Modularidad y reutilización de código.
 Gran comunidad y documentación extensa.
 
 Estructura del Proyecto:
-
+```
 my-terraform-project/
 │── modules/                   # Módulos reutilizables para cada componente
 │   ├── vpc/                   # Definición de VPC y subredes
@@ -42,7 +42,7 @@ my-terraform-project/
 │── terraform.tfvars            # Valores de las variables
 │── README.md                   # Documentación del proyecto
 
-
+```
 
 ## **Paso 1: Configurar el Entorno**
 
