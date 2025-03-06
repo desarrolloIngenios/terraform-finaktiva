@@ -45,14 +45,12 @@ touch main.tf variables.tf outputs.tf
 ### **2.2. Definir Variables (variables.tf)**
 
 ```hcl
-hcl
-CopiarEditar
 variable "aws_region" {
   default = "us-east-1"
 }
 
 variable "cluster_name" {
-  default = "my-fargate-cluster"
+  default = "finaktiva-fargate-cluster"
 }
 
 variable "container_port" {
@@ -67,6 +65,7 @@ variable "task_memory" {
   default = 512
 }
 
+
 ```
 
 ---
@@ -74,32 +73,30 @@ variable "task_memory" {
 ### **2.3. Definir Infraestructura (main.tf)**
 
 ```hcl
-hcl
-CopiarEditar
 provider "aws" {
   region = var.aws_region
 }
 
 # VPC y Subredes
-resource "aws_vpc" "my_vpc" {
+resource "aws_vpc" "finaktiva_vpc" {
   cidr_block = "10.0.0.0/16"
 }
 
-resource "aws_subnet" "public_subnet" {
-  vpc_id                  = aws_vpc.my_vpc.id
+resource "aws_subnet" "finaktiva_public_subnet" {
+  vpc_id                  = aws_vpc.finaktiva_vpc.id
   cidr_block              = "10.0.1.0/24"
   map_public_ip_on_launch = true
 }
 
 # Cluster ECS
-resource "aws_ecs_cluster" "ecs_cluster" {
+resource "aws_ecs_cluster" "finaktiva_ecs_cluster" {
   name = var.cluster_name
 }
 
 # Definir el rol de ejecución de tareas
-resource "aws_iam_role" "ecs_task_execution_role" {
-  name = "ecsTaskExecutionRole"
-
+resource "aws_iam_role" "finaktiva_ecs_task_execution_role" {
+  name = "finaktivaEcsTaskExecutionRole"
+  
   assume_role_policy = jsonencode({
     Statement = [{
       Effect = "Allow"
@@ -110,17 +107,17 @@ resource "aws_iam_role" "ecs_task_execution_role" {
 }
 
 # Definir la tarea ECS
-resource "aws_ecs_task_definition" "ecs_task" {
-  family                   = "my-task"
+resource "aws_ecs_task_definition" "finaktiva_ecs_task" {
+  family                   = "finaktiva-task"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
-  execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
+  execution_role_arn       = aws_iam_role.finaktiva_ecs_task_execution_role.arn
   cpu                      = var.task_cpu
   memory                   = var.task_memory
 
   container_definitions = jsonencode([
     {
-      name      = "my-container"
+      name      = "finaktiva-container"
       image     = "nginx"  # Cambiar por la imagen de tu aplicación
       cpu       = var.task_cpu
       memory    = var.task_memory
@@ -134,63 +131,54 @@ resource "aws_ecs_task_definition" "ecs_task" {
 }
 
 # Servicio ECS con Fargate
-resource "aws_ecs_service" "ecs_service" {
-  name            = "my-service"
-  cluster         = aws_ecs_cluster.ecs_cluster.id
-  task_definition = aws_ecs_task_definition.ecs_task.arn
+resource "aws_ecs_service" "finaktiva_ecs_service" {
+  name            = "finaktiva-service"
+  cluster         = aws_ecs_cluster.finaktiva_ecs_cluster.id
+  task_definition = aws_ecs_task_definition.finaktiva_ecs_task.arn
   launch_type     = "FARGATE"
 
   network_configuration {
-    subnets         = [aws_subnet.public_subnet.id]
+    subnets         = [aws_subnet.finaktiva_public_subnet.id]
     assign_public_ip = true
   }
 }
 
-```
+#### Balanceador de Carga ###
 
----
-
-### **2.4. Crear el Balanceador de Carga (ALB)**
-
-Agrega esto en `main.tf`:
-
-```hcl
-hcl
-CopiarEditar
 # Crear Load Balancer
-resource "aws_lb" "alb" {
-  name               = "my-alb"
+resource "aws_lb" "finaktiva_alb" {
+  name               = "finaktiva-alb"
   internal           = false
   load_balancer_type = "application"
-  security_groups    = [aws_security_group.lb_sg.id]
-  subnets           = [aws_subnet.public_subnet.id]
+  security_groups    = [aws_security_group.finaktiva_lb_sg.id]
+  subnets           = [aws_subnet.finaktiva_public_subnet.id]
 }
 
 # Crear un Target Group
-resource "aws_lb_target_group" "tg" {
-  name     = "ecs-tg"
+resource "aws_lb_target_group" "finaktiva_tg" {
+  name     = "finaktiva-ecs-tg"
   port     = var.container_port
   protocol = "HTTP"
-  vpc_id   = aws_vpc.my_vpc.id
+  vpc_id   = aws_vpc.finaktiva_vpc.id
   target_type = "ip"
 }
 
 # Crear Listener en el LB
-resource "aws_lb_listener" "alb_listener" {
-  load_balancer_arn = aws_lb.alb.arn
+resource "aws_lb_listener" "finaktiva_alb_listener" {
+  load_balancer_arn = aws_lb.finaktiva_alb.arn
   port              = 80
   protocol          = "HTTP"
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.tg.arn
+    target_group_arn = aws_lb_target_group.finaktiva_tg.arn
   }
 }
 
 # Seguridad para el ALB
-resource "aws_security_group" "lb_sg" {
-  name   = "lb-security-group"
-  vpc_id = aws_vpc.my_vpc.id
+resource "aws_security_group" "finaktiva_lb_sg" {
+  name   = "finaktiva-lb-security-group"
+  vpc_id = aws_vpc.finaktiva_vpc.id
 
   ingress {
     from_port   = 80
@@ -206,6 +194,18 @@ resource "aws_security_group" "lb_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
+
+```
+
+---
+
+### **2.4. Crear el Balanceador de Carga (ALB)**
+
+Agrega esto en `main.tf`:
+
+```hcl
+
 
 ```
 
