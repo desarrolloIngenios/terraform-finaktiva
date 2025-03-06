@@ -13,9 +13,9 @@ Grupo de Seguridad: Restringe acceso solo a HTTPS y permite parametrizar direcci
 
 ![Arquitectura Prueba (1)](https://github.com/user-attachments/assets/18df7121-0aa3-46d0-89b0-f36549c17ec7)
 
-Se crea el Terraform utilizando el servicio de ECS como lo indica el ejercicio, como lo defino en la arquitectura propongo EKS esto depende de tener claro el tamano de la apliccion y el cosnumo que se tenga actualmente, si e suna plataforma pequena ECS es una solucion confiable economica y no requiere mayor complejidad. 
+Se crea el Terraform utilizando el servicio de ECS como lo indica el ejercicio, como lo defino en la arquitectura propongo EKS esto depende de tener claro el tamaño de la aplicación y el consumo que se tenga actualmente, si es una plataforma pequeña ECS es una solución confiable económica y no requiere mayor complejidad.
 
-Herramienta: Terraform
+
 
 Justificación:
 
