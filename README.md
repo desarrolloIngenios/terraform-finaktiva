@@ -1,14 +1,46 @@
 Arquitectura de la Solucion.
 
-Se define una arquitectura escalable y con alta disponibilidad, se toma la decicion d eutilizar Kubernetes ya que validando la compania y al tener 13.000 clientes y esperando tener un crecimiento exponencial a futuro se sugiere la utlizacaion de los kubernetes esto nos ayuda a la opracion de plataformas robusata, optimizar costos con el afinamiento de los pod, dependiedo del consumo se puede llegar a tener negociaciones y compromisos de recursos reservados.
+Se define una arquitectura escalable y con alta disponibilidad, se toma la decisión de utilizar Kubernetes ya que validando la compañía y al tener 13.000 clientes y esperando tener un crecimiento exponencial a futuro se sugiere la utilización de los kubernetes esto nos ayuda a la operación de plataformas robusta, optimizar costos con el afinamiento de los pod, dependiendo del consumo se puede llegar a tener negociaciones y compromisos de recursos reservados.
 
-De igual manera se pued epensar en tener una infraestructura portable y tener l aposibilidad de realizar migraciones a otras nuebes sin mayor traumatismo.  
+De igual manera se puede pensar en tener una infraestructura portable y tener su posibilidad de realizar migraciones a otras nubes sin mayor traumatismo.
+La alta disponibilidad se define ya que al ser una entidad financiera y en colombia las regulación de la superfinanciera indica que las entidades deben tener una alta disponibilidad en otra región donde garantice la continuidad del negocio y la disponibilidad a sus usuarios.
 
-La alta disponibilidad se define ya que al ser una entidad fonanciera y en colombia las regulacion de la superfinanciera indica que las entidiades deben tener una alta disponibilidad en otra region donde garantice la continuidad del negocio y la disponiblidad a sus usuarios. 
+Tener una solución de alta disponibilidad puede llegar a ser costoso por ello se debe entrar a plantear una solución donde se identifique los recursos cor de negocio y que podamos tener una disponibilidad de bajo costos, con recurso apagados o utilizara terraform que nos permite tener una Iaac para desplegar en otra región o en otra nube de tener una disponibilidad y no tener dependencia de la nube, todo esto se puede automatizar desde Github.
 
-Tener una solucion de alta dsiponibilidad puede llegar  a ser costoso por ello se debe entrar a replantear una solucion donde se identifique los recuros cor  de negocio y que podamos tenner una disponibilidad de bajo costos, con recurso apagados o utilizara terraform que nos permite tener una Iaac para depslegar en otra region o en otra nube de tener una disponibilidad y no tener dependnecia de la nube, todo esto se pued automatizar desde Github.
+VPC y Subredes: Se crean subredes personalizadas en distintas zonas de disponibilidad.
+Grupo de Seguridad: Restringe acceso solo a HTTPS y permite parametrizar direcciones IP permitidas.
+
 
 ![Arquitectura Prueba (1)](https://github.com/user-attachments/assets/18df7121-0aa3-46d0-89b0-f36549c17ec7)
+
+Se crea el Terraform utilizando el servicio de ECS como lo indica el ejercicio, como lo defino en la arquitectura propongo EKS esto depende de tener claro el tamano de la apliccion y el cosnumo que se tenga actualmente, si e suna plataforma pequena ECS es una solucion confiable economica y no requiere mayor complejidad. 
+
+Herramienta: Terraform
+
+Justificación:
+
+Enfoque declarativo y estado mantenido.
+
+Compatibilidad con múltiples proveedores de nube.
+
+Modularidad y reutilización de código.
+
+Gran comunidad y documentación extensa.
+
+Estructura del Proyecto:
+
+my-terraform-project/
+│── modules/                   # Módulos reutilizables para cada componente
+│   ├── vpc/                   # Definición de VPC y subredes
+│   ├── ecs/                   # Configuración del clúster ECS
+│   ├── services/              # Definición de servicios ECS
+│   ├── load_balancer/         # Configuración del ALB
+│── environments/              # Configuraciones para dev, stg, prod
+│── main.tf                    # Configuración principal de Terraform
+│── variables.tf                # Definición de variables
+│── outputs.tf                  # Valores de salida
+│── terraform.tfvars            # Valores de las variables
+│── README.md                   # Documentación del proyecto
 
 
 
