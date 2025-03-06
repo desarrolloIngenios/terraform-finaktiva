@@ -274,7 +274,6 @@ Obtén la URL del ALB:
 
 ```bash
 bash
-CopiarEditar
 terraform output
 
 ```
@@ -286,7 +285,6 @@ terraform output
 Crea el archivo `.github/workflows/deploy.yml`:
 
 ```yaml
-yaml
 CopiarEditar
 name: Deploy to AWS Fargate with Terraform
 
@@ -336,13 +334,20 @@ En GitHub, agrega las credenciales de AWS como **Secretos**:
 
 1. **Verifica el despliegue**
     
-    ```bash
     bash
-    CopiarEditar
     terraform output
     
     ```
-    
+Validar la Infraestructura
+Una vez desplegado, revisa la URL del servicio:
+
+bash
+aws ecs list-services --cluster my-fargate-cluster
+Si configuraste un balanceador de carga, usa:
+
+bash
+aws elbv2 describe-load-balancers --query 'LoadBalancers[*].DNSName'
+
     Copia la URL del balanceador de carga y accede desde un navegador.
     
 2. **Habilitar Monitoreo en CloudWatch**
@@ -363,7 +368,50 @@ En GitHub, agrega las credenciales de AWS como **Secretos**:
     }
     
     ```
-    
+ CI/CD
+Herramienta: GitHub Actions
+Justificación:
+Integración nativa con GitHub.
+Facilidad de configuración y uso.
+Gran comunidad y documentación.
+Pipeline
+Crear un workflow de GitHub Actions.
+Definir jobs para cada ambiente (dev, stg, prod).
+Configurar Terraform en el pipeline:
+terraform fmt para formateo del código.
+terraform init para inicializar el backend.
+terraform validate para verificar sintaxis.
+terraform plan para visualizar cambios.
+terraform apply para aplicar cambios en producción.
+Implementar estrategias de despliegue:
+Blue/Green
+Rolling Update
+Prueba Teórica o de Conocimientos Técnicos
+
+Pregunta 1: Publicar un servidor en LAN con HTTPS
+Opción 1: Configurar un Proxy Reverso con Nginx
+-Configurar Nginx en un servidor con IP pública.
+-Redirigir / al puerto 8080 y /servicio al puerto 8443 en la LAN.
+
+Opción 2: AWS Application Load Balancer con reglas de reescritura
+-Desplegar un ALB con reglas para enrutar tráfico al backend interno.
+-Configurar un túnel VPN o AWS PrivateLink para comunicación con el servidor local.
+
+Pregunta 2: Cliente no puede acceder a los servicios
+-DNS incorrecto o no propagado.
+-Bloqueo de firewall en el cliente.
+-Problemas con el certificado SSL.
+-Reglas de seguridad en AWS mal configuradas.
+-Proxy o restricciones en la red del cliente.
+
+Pregunta 3: Algoritmos de balanceo
+-Round Robin: Distribuye tráfico equitativamente. Bueno para cargas balanceadas, este lo utilizaría para equilibrar las peticiones que se realicen y logran una mayor eficiencia y respuesta.
+-Weighted Round Robin: Prioriza ciertos servidores con más capacidad. Esta opción la utiliza para redimir tráfico a pod con ciertas capacidades y optimizados tomando como prioridad la necesidad del negocio.
+-Least Connection: Envía tráfico al servidor con menos conexiones activas, Esta opción se puede utilizar para realizar un balanceo de carga y que la peticiones siempre se equilibre tomando como referencia la disponibilidad de la infra.
+-Source Hash: Mantiene afinidad del usuario según IP. Esta opción  la utilizan para una solución que requiere trabajar políticas de seguridad y acceso a ciertos servicios validando su origen.
+-URI Hash: Balancea tráfico según la URL solicitada. Ideal para caché distribuido. Esta opción la utilizaria para priorizar API que requieren una alta disponibilidad y para la entrega de contenido rápido con el objetivo de agilizar la entrega de información al usuario sin importar su ubicación.
+   
+Agunos errores que se presentaron durante la preparacion de la prueba.
 
 errores.
 
@@ -377,3 +425,7 @@ hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
 hint: 'development'. The just-created branch can be renamed via this command:
 hint:
 hint:   git branch -m <name>
+
+Este error se presento porque solo tenia una rama creada. para solucionarlo y la buena practica es no trabajar con la master sino tener una rama de main, y otras para los diferentes ambientes.
+
+
