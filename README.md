@@ -424,6 +424,36 @@ hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
 hint: 'development'. The just-created branch can be renamed via this command:
 hint:
 hint:   git branch -m <name>
+
+ottofonseca@Otoniels-MacBook-Air FinaktivaDevops % git commit -m "Guardando cambios locales antes del pull"
+
+[main 51c769d] Guardando cambios locales antes del pull
+ 1 file changed, 30 insertions(+)
+ottofonseca@Otoniels-MacBook-Air FinaktivaDevops % git pull origin main --rebase
+
+From https://github.com/desarrolloIngenios/terraform-finaktiva
+ * branch            main       -> FETCH_HEAD
+Auto-merging .gitignore
+CONFLICT (add/add): Merge conflict in .gitignore
+error: could not apply 4084105... Inicialización del proyecto Terraform para Finaktiva
+hint: Resolve all conflicts manually, mark them as resolved with
+hint: "git add/rm <conflicted_files>", then run "git rebase --continue".
+hint: You can instead skip this commit: run "git rebase --skip".
+hint: To abort and get back to the state before "git rebase", run "git rebase --abort".
+hint: Disable this message with "git config set advice.mergeConflict false"
+Could not apply 4084105... Inicialización del proyecto Terraform para Finaktiva
+ottofonseca@Otoniels-MacBook-Air FinaktivaDevops % git add .                                               
+
+ottofonseca@Otoniels-MacBook-Air FinaktivaDevops % git commit -m "Guardando cambios locales antes del pull"
+
+[detached HEAD 8c6e4fb] Guardando cambios locales antes del pull
+ 4 files changed, 140 insertions(+), 37 deletions(-)
+ create mode 100644 .github
+ delete mode 100644 .gitignore
+ create mode 100644 main.tf
+ create mode 100644 variable.tf
+ottofonseca@Otoniels-MacBook-Air FinaktivaDevops % git pull origin main --rebase
+
 ```
 
 ![Uploading Captura de pantalla 2025-03-06 a la(s) 11.41.31 a.m..png…]()
